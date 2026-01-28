@@ -1,8 +1,163 @@
+import Image from 'next/image';
+import { Card } from '@/components/ui/Card';
+
 export default function Home() {
+  const stats = [
+    {
+      title: 'Total Calls Today',
+      value: '127',
+      trend: '+12%',
+      trendType: 'up',
+      icon: '/images/calls-today.png',
+      iconBg: 'bg-brand-blue/20',
+    },
+    {
+      title: 'AI-Handled Calls',
+      value: '98',
+      trend: '+77%',
+      trendType: 'up',
+      icon: '/images/ai-handled-calls.png',
+      iconBg: 'bg-brand-pink/20',
+    },
+    {
+      title: 'Warm Transfer',
+      value: '23',
+      trend: '+18%',
+      trendType: 'up',
+      icon: '/images/transfer.png',
+      iconBg: 'bg-brand-orange/20',
+    },
+    {
+      title: 'Appointments Booked',
+      value: '34',
+      trend: '+8%',
+      trendType: 'up',
+      icon: '/images/appointment-books.png',
+      iconBg: 'bg-brand-green/20',
+    },
+    {
+      title: 'Missed/Failed Calls',
+      value: '6',
+      trend: '-3%',
+      trendType: 'down',
+      icon: '/images/missed-calls.png',
+      iconBg: 'bg-brand-red/20',
+    },
+    {
+      title: 'Avg Call Duration',
+      value: '3:42',
+      trend: '+15%',
+      trendType: 'up',
+      icon: '/images/call-duration.png',
+      iconBg: 'bg-brand-blue/20',
+    },
+  ];
+
   return (
-    <main className="min-h-screen p-8">
-      <h1 className="text-2xl font-bold">Dashboard Home</h1>
-      <p className="text-text-secondary">Welcome to your dashboard.</p>
-    </main>
+    <div className="space-y-8">
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {stats.map((stat, index) => (
+          <Card key={index} className="flex flex-col justify-between group hover:border-brand-blue/50 transition-colors">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <p className="text-sm text-text-secondary mb-1">{stat.title}</p>
+                <h3 className="text-3xl font-bold text-text-primary">{stat.value}</h3>
+              </div>
+              <div className={`${stat.iconBg} p-2.5 rounded-xl border border-white/5`}>
+                <Image src={stat.icon} alt={stat.title} width={24} height={24} />
+              </div>
+            </div>
+            <div className="flex items-center">
+              <span className={`text-xs font-semibold ${stat.trendType === 'up' ? 'text-brand-green' : 'text-brand-red'}`}>
+                {stat.trend}
+              </span>
+            </div>
+          </Card>
+        ))}
+      </div>
+
+      {/* Call Trends Chart */}
+      <Card className="p-0 overflow-hidden">
+        <div className="p-6 flex justify-between items-center">
+          <div>
+            <h3 className="text-lg font-semibold text-text-primary">Call Trends - This Week</h3>
+            <p className="text-sm text-text-secondary">Total: 472 calls</p>
+          </div>
+          <div className="relative">
+            <button className="flex items-center space-x-2 bg-surface-hover border border-border-subtle px-3 py-1.5 rounded-lg text-sm text-text-primary">
+              <span>This Week</span>
+              <svg className="w-4 h-4 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div className="h-[300px] w-full px-6 pb-6 relative">
+          {/* Y-Axis Labels */}
+          <div className="absolute left-6 top-0 bottom-14 flex flex-col justify-between text-[10px] text-text-secondary pr-4 w-8 text-right">
+            <span>100</span>
+            <span>75</span>
+            <span>50</span>
+            <span>25</span>
+            <span>0</span>
+          </div>
+
+          <div className="ml-8 h-full flex flex-col">
+            {/* Grid Lines & Chart Area */}
+            <div className="flex-1 relative border-b border-white/5">
+              {[0, 1, 2, 3].map((i) => (
+                <div 
+                  key={i} 
+                  className="absolute w-full border-t border-white/5" 
+                  style={{ top: `${i * 25}%` }} 
+                />
+              ))}
+              
+              {/* SVG Chart */}
+              <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#0EA5E9" stopOpacity="0.4" />
+                    <stop offset="100%" stopColor="#0EA5E9" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+                
+                {/* Area Path */}
+                <path
+                  d="M 0 80 Q 50 60, 100 70 T 200 65 T 300 50 T 400 30 T 500 45 T 600 20 T 700 35 L 700 100 L 0 100 Z"
+                  fill="url(#chartGradient)"
+                  className="w-full"
+                  vectorEffect="non-scaling-stroke"
+                  transform="scale(1.2, 2.5) translate(0, -20)"
+                />
+                
+                {/* Stroke Path */}
+                <path
+                  d="M 0 80 Q 50 60, 100 70 T 200 65 T 300 50 T 400 30 T 500 45 T 600 20 T 700 35"
+                  fill="none"
+                  stroke="#0EA5E9"
+                  strokeWidth="2"
+                  vectorEffect="non-scaling-stroke"
+                  transform="scale(1.2, 2.5) translate(0, -20)"
+                />
+              </svg>
+            </div>
+
+            {/* X-Axis Labels */}
+            <div className="flex justify-between mt-4 text-[10px] text-text-secondary">
+              <span>Mon</span>
+              <span>Tue</span>
+              <span>Wed</span>
+              <span>Thu</span>
+              <span>Fri</span>
+              <span>Sat</span>
+              <span>Sun</span>
+            </div>
+          </div>
+        </div>
+      </Card>
+    </div>
   );
 }

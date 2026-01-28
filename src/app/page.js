@@ -158,6 +158,58 @@ export default function Home() {
           </div>
         </div>
       </Card>
+
+      {/* Bottom Lists Area */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Recent Activity */}
+        <Card className="flex flex-col">
+          <h3 className="text-lg font-semibold text-text-primary mb-6">Recent Activity</h3>
+          <div className="space-y-4">
+            {[
+              { text: 'AI booked appointment for iPhone 13 screen repair', time: '2 min ago', color: 'bg-brand-green' },
+              { text: 'Warm transfer to technician - Software issue', time: '5 min ago', color: 'bg-brand-orange' },
+              { text: 'Quote provided for iPad battery replacement', time: '8 min ago', color: 'bg-brand-green' },
+              { text: 'Call dropped after 12 seconds', time: '15 min ago', color: 'bg-brand-red' },
+            ].map((item, idx) => (
+              <div key={idx} className="bg-surface-hover/50 p-4 rounded-xl border border-white/5 group hover:bg-surface-hover transition-colors">
+                <div className="flex items-start space-x-3">
+                  <div className={`w-2 h-2 mt-2 rounded-full ${item.color} shadow-sm shadow-white/10`} />
+                  <div>
+                    <p className="text-sm text-text-primary font-medium">{item.text}</p>
+                    <p className="text-xs text-text-secondary mt-1">{item.time}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+
+        {/* Top Repair Requests */}
+        <Card className="flex flex-col">
+          <h3 className="text-lg font-semibold text-text-primary mb-6">Top Repair Requests</h3>
+          <div className="space-y-6">
+            {[
+              { name: 'Screen Repair', count: 156, percentage: 80 },
+              { name: 'Battery Replacement', count: 89, percentage: 50 },
+              { name: 'Back Glass Repair', count: 67, percentage: 40 },
+              { name: 'Software Issues', count: 45, percentage: 30 },
+            ].map((request, idx) => (
+              <div key={idx} className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="font-medium text-text-primary">{request.name}</span>
+                  <span className="text-text-secondary">{request.count} requests</span>
+                </div>
+                <div className="h-2 w-full bg-surface-hover rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-brand-blue rounded-full" 
+                    style={{ width: `${request.percentage}%` }} 
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </div>
     </div>
   );
 }
